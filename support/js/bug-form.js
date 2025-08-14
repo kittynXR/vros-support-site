@@ -8,7 +8,7 @@ const API_CONFIG = {
   // Use Cloudflare Worker in production
   apiBase: window.location.hostname === 'localhost' 
     ? 'http://localhost:8787/api'
-    : 'https://vros-api.hbrdzn8ttn.workers.dev/api',
+    : 'https://api.vros.cat/api',
   
   // GitHub repository for direct links
   githubRepo: 'https://github.com/catnet-systems/vros-bugs'
