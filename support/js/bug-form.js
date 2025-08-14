@@ -8,10 +8,10 @@ const API_CONFIG = {
   // Use Cloudflare Worker in production
   apiBase: window.location.hostname === 'localhost' 
     ? 'http://localhost:8787/api'
-    : 'https://api.vros.cat',
+    : 'https://vros-api.hbrdzn8ttn.workers.dev/api',
   
   // GitHub repository for direct links
-  githubRepo: 'https://github.com/catnet/vros-bugs'
+  githubRepo: 'https://github.com/catnet-systems/vros-bugs'
 };
 
 // Form Handler Class
