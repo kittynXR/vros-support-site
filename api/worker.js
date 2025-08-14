@@ -271,8 +271,116 @@ async function handleUpdateLabels(request, env, corsHeaders, issueNumber) {
     });
   }
   
+  // Clear cache for issues
+  const cacheKeys = await env.CACHE.list();
+  for (const key of cacheKeys.keys) {
+    if (key.name.startsWith('issues:')) {
+      await env.CACHE.delete(key.name);
+    }
+  }
+  
   const data = await githubResponse.json();
   return new Response(JSON.stringify(data), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+  });
+}
+
+// Handler: PUT /api/issues/:number/status
+async function handleUpdateStatus(request, env, corsHeaders, issueNumber) {
+  const body = await request.json();
+  
+  if (!body.status) {
+    return new Response(JSON.stringify({ error: 'Status required' }), {
+      status: 400,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+  
+  // First, get current issue to preserve existing labels
+  const issueResponse = await fetch(
+    `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/issues/${issueNumber}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'VROS-API-Worker'
+      }
+    }
+  );
+  
+  if (!issueResponse.ok) {
+    return new Response(JSON.stringify({ error: 'Issue not found' }), {
+      status: 404,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+  
+  const issue = await issueResponse.json();
+  
+  // Filter out existing status labels and add new one
+  const existingLabels = issue.labels
+    .map(label => label.name)
+    .filter(name => !name.startsWith('status:'));
+  
+  const newLabels = [...existingLabels, `status:${body.status}`];
+  
+  // Update labels
+  const updateResponse = await fetch(
+    `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/issues/${issueNumber}/labels`,
+    {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'VROS-API-Worker'
+      },
+      body: JSON.stringify({ labels: newLabels })
+    }
+  );
+  
+  // If moving to done, close the issue
+  if (body.status === 'done' && issue.state === 'open') {
+    await fetch(
+      `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/issues/${issueNumber}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'VROS-API-Worker'
+        },
+        body: JSON.stringify({ state: 'closed' })
+      }
+    );
+  }
+  // If moving from done to another status, reopen the issue
+  else if (body.status !== 'done' && issue.state === 'closed') {
+    await fetch(
+      `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/issues/${issueNumber}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'VROS-API-Worker'
+        },
+        body: JSON.stringify({ state: 'open' })
+      }
+    );
+  }
+  
+  // Clear cache for issues
+  const cacheKeys = await env.CACHE.list();
+  for (const key of cacheKeys.keys) {
+    if (key.name.startsWith('issues:')) {
+      await env.CACHE.delete(key.name);
+    }
+  }
+  
+  return new Response(JSON.stringify({ success: true, status: body.status }), {
     headers: { ...corsHeaders, 'Content-Type': 'application/json' }
   });
 }
@@ -492,6 +600,11 @@ export default {
       if (url.pathname.match(/^\/api\/issues\/(\d+)\/labels$/) && request.method === 'PUT') {
         const match = url.pathname.match(/^\/api\/issues\/(\d+)\/labels$/);
         return handleUpdateLabels(request, env, corsHeaders, match[1]);
+      }
+      
+      if (url.pathname.match(/^\/api\/issues\/(\d+)\/status$/) && request.method === 'PUT') {
+        const match = url.pathname.match(/^\/api\/issues\/(\d+)\/status$/);
+        return handleUpdateStatus(request, env, corsHeaders, match[1]);
       }
       
       if (url.pathname === '/api/patch-notes' && request.method === 'GET') {
