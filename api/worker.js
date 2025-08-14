@@ -366,7 +366,8 @@ async function handleLatestVersion(request, env, corsHeaders) {
       'Content-Type': 'application/json',
       'X-Cache': 'MISS'
     }
-};
+  });
+}
 
 // Handler: GET /api/stats
 async function handleStats(request, env, corsHeaders) {

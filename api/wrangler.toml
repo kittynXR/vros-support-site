@@ -20,18 +20,15 @@ ALLOWED_ORIGINS = "https://support.vros.cat,https://bugs.vros.cat,http://localho
 
 [[kv_namespaces]]
 binding = "TOKENS"
-id = "REPLACE_WITH_YOUR_TOKENS_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_YOUR_TOKENS_PREVIEW_ID"
+id = "9990e5e57c584bce9bc5f227678d2ba6"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "REPLACE_WITH_YOUR_CACHE_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_YOUR_CACHE_PREVIEW_ID"
+id = "b34839f92a2c456493ffd20a01deb050"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "REPLACE_WITH_YOUR_RATE_LIMIT_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_YOUR_RATE_LIMIT_PREVIEW_ID"
+id = "deccc8329002482d861d294404ebb9b5"
 
 # Routes (optional - can also configure in dashboard)
 # route = "api.vros.cat/*"
