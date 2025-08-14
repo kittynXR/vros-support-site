@@ -5,98 +5,501 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VROS Bug Tracker</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            margin: 0;
             padding: 20px;
         }
+        
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
+        
         .header {
             text-align: center;
             color: white;
             margin-bottom: 30px;
         }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            font-size: 16px;
+        }
+        
+        .search-box input::placeholder {
+            color: #999;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .filter-btn.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
         .loading {
             text-align: center;
             color: white;
             font-size: 18px;
             margin-top: 50px;
         }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         .error {
             background: #ef4444;
             color: white;
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
+            text-align: center;
         }
+        
+        .error button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            border: none;
+            background: white;
+            color: #ef4444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
         .board {
             display: flex;
             gap: 20px;
             overflow-x: auto;
             padding-bottom: 20px;
         }
+        
         .column {
             background: white;
-            border-radius: 10px;
-            padding: 15px;
-            min-width: 300px;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 320px;
             flex-shrink: 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
+        
         .column-header {
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #333;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .issue-card {
-            background: #f7f7f7;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-        }
-        .issue-title {
+        
+        .column-count {
+            background: #e5e7eb;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
             font-weight: 500;
-            margin-bottom: 5px;
-            color: #333;
         }
+        
+        .issue-card {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .issue-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .issue-card.severity-high {
+            border-left-color: #ef4444;
+        }
+        
+        .issue-card.severity-medium {
+            border-left-color: #f59e0b;
+        }
+        
+        .issue-card.severity-low {
+            border-left-color: #3b82f6;
+        }
+        
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+        
+        .issue-title {
+            font-weight: 600;
+            color: #1f2937;
+            flex: 1;
+            margin-right: 10px;
+            line-height: 1.4;
+        }
+        
         .issue-number {
-            color: #666;
-            font-size: 14px;
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 500;
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
+        
+        .issue-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .issue-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        
         .label {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 12px;
-            margin-right: 5px;
+            font-size: 11px;
+            font-weight: 500;
             background: #e5e7eb;
             color: #4b5563;
         }
+        
         .label.bug {
             background: #fee2e2;
             color: #991b1b;
         }
+        
         .label.severity-high {
-            background: #fef2f2;
+            background: #fee2e2;
             color: #b91c1c;
         }
+        
         .label.severity-medium {
-            background: #fef9c3;
-            color: #854d0e;
+            background: #fed7aa;
+            color: #92400e;
         }
+        
         .label.severity-low {
-            background: #f0f9ff;
-            color: #075985;
+            background: #dbeafe;
+            color: #1e40af;
         }
+        
+        .label.category-ui {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+        
+        .label.category-performance {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+        
+        .label.category-api {
+            background: #ccfbf1;
+            color: #065f46;
+        }
+        
         .empty-state {
             text-align: center;
-            color: #999;
-            padding: 40px;
+            color: #9ca3af;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+        
+        .modal-title-section {
+            flex: 1;
+        }
+        
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .modal-section {
+            margin-bottom: 25px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .modal-section-content {
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .modal-section-content p {
+            margin-bottom: 10px;
+        }
+        
+        .modal-section-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .modal-label {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: 15px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        
+        .no-issues {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .no-issues-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .no-issues h2 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .no-issues p {
+            color: #6b7280;
         }
     </style>
 </head>
@@ -107,38 +510,177 @@
             <p>Track and manage reported issues</p>
         </div>
         
-        <div id="loading" class="loading">Loading issues...</div>
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by title or issue number...">
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="high">High Priority</button>
+                <button class="filter-btn" data-filter="medium">Medium Priority</button>
+                <button class="filter-btn" data-filter="low">Low Priority</button>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span id="totalCount">0</span> Total
+                </div>
+                <div class="stat">
+                    <span id="openCount">0</span> Open
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading">
+            <span class="loading-spinner"></span>
+            Loading issues...
+        </div>
+        
         <div id="error" class="error" style="display: none;"></div>
+        
         <div id="board" class="board" style="display: none;">
             <div class="column">
-                <div class="column-header">📋 Backlog</div>
+                <div class="column-header">
+                    <span>📋 Backlog</span>
+                    <span class="column-count" id="backlog-count">0</span>
+                </div>
                 <div id="backlog"></div>
             </div>
             <div class="column">
-                <div class="column-header">📝 To Do</div>
+                <div class="column-header">
+                    <span>📝 To Do</span>
+                    <span class="column-count" id="todo-count">0</span>
+                </div>
                 <div id="todo"></div>
             </div>
             <div class="column">
-                <div class="column-header">🚀 In Progress</div>
+                <div class="column-header">
+                    <span>🚀 In Progress</span>
+                    <span class="column-count" id="in-progress-count">0</span>
+                </div>
                 <div id="in-progress"></div>
             </div>
             <div class="column">
-                <div class="column-header">🧪 Testing</div>
+                <div class="column-header">
+                    <span>🧪 Testing</span>
+                    <span class="column-count" id="testing-count">0</span>
+                </div>
                 <div id="testing"></div>
             </div>
             <div class="column">
-                <div class="column-header">✅ Done</div>
+                <div class="column-header">
+                    <span>✅ Done</span>
+                    <span class="column-count" id="done-count">0</span>
+                </div>
                 <div id="done"></div>
+            </div>
+        </div>
+        
+        <div id="noIssues" class="no-issues" style="display: none;">
+            <div class="no-issues-icon">🎉</div>
+            <h2>No Issues Found</h2>
+            <p>Great news! There are no reported issues at the moment.</p>
+        </div>
+    </div>
+    
+    <!-- Modal for issue details -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <div class="modal-title" id="modalTitle"></div>
+                    <div class="modal-meta">
+                        <span id="modalNumber"></span>
+                        <span id="modalStatus"></span>
+                        <span id="modalDate"></span>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <div class="modal-section-title">Description</div>
+                    <div class="modal-section-content" id="modalDescription"></div>
+                </div>
+                
+                <div class="modal-section">
+                    <div class="modal-section-title">Details</div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Severity</span>
+                            <span class="info-value" id="modalSeverity"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Category</span>
+                            <span class="info-value" id="modalCategory"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Reported</span>
+                            <span class="info-value" id="modalReported"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated</span>
+                            <span class="info-value" id="modalUpdated"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <div class="modal-section-title">Labels</div>
+                    <div class="modal-labels" id="modalLabels"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Simple bug tracker without React
+        let allIssues = [];
+        let filteredIssues = [];
+        let currentFilter = 'all';
+        let searchTerm = '';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadIssues();
+            setupEventListeners();
+        });
+        
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchTerm = e.target.value.toLowerCase();
+                filterAndRender();
+            });
+            
+            // Filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.dataset.filter;
+                    filterAndRender();
+                });
+            });
+            
+            // Close modal on overlay click
+            document.getElementById('modalOverlay').addEventListener('click', (e) => {
+                if (e.target.id === 'modalOverlay') {
+                    closeModal();
+                }
+            });
+            
+            // Close modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+        
         async function loadIssues() {
             const loadingEl = document.getElementById('loading');
             const errorEl = document.getElementById('error');
             const boardEl = document.getElementById('board');
+            const noIssuesEl = document.getElementById('noIssues');
             
             try {
                 const response = await fetch('https://api.vros.cat/api/issues?state=all', {
@@ -151,84 +693,19 @@
                     throw new Error('Failed to load issues: ' + response.status);
                 }
                 
-                const issues = await response.json();
-                console.log('Loaded issues:', issues);
+                allIssues = await response.json();
+                console.log('Loaded issues:', allIssues);
                 
-                // Hide loading, show board
+                // Hide loading
                 loadingEl.style.display = 'none';
-                boardEl.style.display = 'flex';
                 
-                // Clear columns
-                const columns = {
-                    backlog: document.getElementById('backlog'),
-                    todo: document.getElementById('todo'),
-                    'in-progress': document.getElementById('in-progress'),
-                    testing: document.getElementById('testing'),
-                    done: document.getElementById('done')
-                };
-                
-                Object.values(columns).forEach(col => col.innerHTML = '');
-                
-                // Sort issues into columns
-                const columnIssues = {
-                    backlog: [],
-                    todo: [],
-                    'in-progress': [],
-                    testing: [],
-                    done: []
-                };
-                
-                issues.forEach(issue => {
-                    const labels = issue.labels.map(l => l.name);
-                    let column = 'backlog';
-                    
-                    if (issue.state === 'closed' || labels.includes('status:done')) {
-                        column = 'done';
-                    } else if (labels.includes('status:testing')) {
-                        column = 'testing';
-                    } else if (labels.includes('status:in-progress')) {
-                        column = 'in-progress';
-                    } else if (labels.includes('status:todo')) {
-                        column = 'todo';
-                    }
-                    
-                    columnIssues[column].push(issue);
-                });
-                
-                // Render issues
-                Object.entries(columnIssues).forEach(([columnId, issues]) => {
-                    const columnEl = columns[columnId];
-                    
-                    if (issues.length === 0) {
-                        columnEl.innerHTML = '<div class="empty-state">No issues</div>';
-                        return;
-                    }
-                    
-                    issues.forEach(issue => {
-                        const card = document.createElement('div');
-                        card.className = 'issue-card';
-                        
-                        const labelsHtml = issue.labels.map(label => {
-                            let className = 'label';
-                            if (label.name === 'bug') className += ' bug';
-                            if (label.name.startsWith('severity:')) {
-                                className += ' ' + label.name.replace(':', '-');
-                            }
-                            return `<span class="${className}">${label.name}</span>`;
-                        }).join('');
-                        
-                        card.innerHTML = `
-                            <div class="issue-title">${issue.title}</div>
-                            <div class="issue-number">#${issue.number}</div>
-                            <div>${labelsHtml}</div>
-                        `;
-                        
-                        card.onclick = () => window.open(issue.html_url, '_blank');
-                        card.style.cursor = 'pointer';
-                        
-                        columnEl.appendChild(card);
-                    });
-                });
+                if (allIssues.length === 0) {
+                    noIssuesEl.style.display = 'block';
+                    updateStats();
+                } else {
+                    boardEl.style.display = 'flex';
+                    filterAndRender();
+                }
                 
             } catch (error) {
                 console.error('Error loading issues:', error);
@@ -236,14 +713,245 @@
                 errorEl.style.display = 'block';
                 errorEl.innerHTML = `
                     <strong>Failed to load issues</strong><br>
-                    ${error.message}<br><br>
+                    ${error.message}<br>
                     <button onclick="location.reload()">Try Again</button>
                 `;
             }
         }
         
-        // Load issues on page load
-        loadIssues();
+        function filterAndRender() {
+            // Apply filters
+            filteredIssues = allIssues.filter(issue => {
+                // Search filter
+                if (searchTerm) {
+                    const matchesSearch = 
+                        issue.title.toLowerCase().includes(searchTerm) ||
+                        issue.number.toString().includes(searchTerm) ||
+                        (issue.body && issue.body.toLowerCase().includes(searchTerm));
+                    
+                    if (!matchesSearch) return false;
+                }
+                
+                // Severity filter
+                if (currentFilter !== 'all') {
+                    const severity = getSeverity(issue.labels);
+                    if (severity !== currentFilter) return false;
+                }
+                
+                return true;
+            });
+            
+            renderBoard();
+            updateStats();
+        }
+        
+        function renderBoard() {
+            // Clear columns
+            const columns = {
+                backlog: document.getElementById('backlog'),
+                todo: document.getElementById('todo'),
+                'in-progress': document.getElementById('in-progress'),
+                testing: document.getElementById('testing'),
+                done: document.getElementById('done')
+            };
+            
+            Object.values(columns).forEach(col => col.innerHTML = '');
+            
+            // Sort issues into columns
+            const columnIssues = {
+                backlog: [],
+                todo: [],
+                'in-progress': [],
+                testing: [],
+                done: []
+            };
+            
+            filteredIssues.forEach(issue => {
+                const column = getIssueColumn(issue);
+                columnIssues[column].push(issue);
+            });
+            
+            // Render issues
+            Object.entries(columnIssues).forEach(([columnId, issues]) => {
+                const columnEl = columns[columnId];
+                const countEl = document.getElementById(`${columnId}-count`);
+                
+                countEl.textContent = issues.length;
+                
+                if (issues.length === 0) {
+                    columnEl.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            No issues
+                        </div>
+                    `;
+                    return;
+                }
+                
+                issues.forEach(issue => {
+                    columnEl.appendChild(createIssueCard(issue));
+                });
+            });
+        }
+        
+        function createIssueCard(issue) {
+            const card = document.createElement('div');
+            const severity = getSeverity(issue.labels);
+            card.className = `issue-card severity-${severity}`;
+            
+            const labelsHtml = issue.labels
+                .filter(label => !label.name.startsWith('status:'))
+                .map(label => {
+                    let className = 'label';
+                    if (label.name === 'bug') className += ' bug';
+                    if (label.name.startsWith('severity:')) {
+                        className += ' ' + label.name.replace(':', '-');
+                    }
+                    if (label.name.startsWith('category:')) {
+                        className += ' ' + label.name.replace(':', '-');
+                    }
+                    return `<span class="${className}">${formatLabel(label.name)}</span>`;
+                })
+                .join('');
+            
+            const date = new Date(issue.created_at);
+            const dateStr = formatDate(date);
+            
+            card.innerHTML = `
+                <div class="issue-header">
+                    <div class="issue-title">${escapeHtml(issue.title)}</div>
+                    <span class="issue-number">#${issue.number}</span>
+                </div>
+                <div class="issue-meta">
+                    <span class="issue-date">📅 ${dateStr}</span>
+                </div>
+                <div class="labels">${labelsHtml}</div>
+            `;
+            
+            card.onclick = () => showIssueDetails(issue);
+            
+            return card;
+        }
+        
+        function showIssueDetails(issue) {
+            const modal = document.getElementById('modalOverlay');
+            
+            // Set modal content
+            document.getElementById('modalTitle').textContent = issue.title;
+            document.getElementById('modalNumber').textContent = `Issue #${issue.number}`;
+            document.getElementById('modalStatus').textContent = issue.state === 'open' ? '🟢 Open' : '🔴 Closed';
+            document.getElementById('modalDate').textContent = `📅 ${formatDate(new Date(issue.created_at))}`;
+            
+            // Description
+            const description = issue.body || 'No description provided.';
+            document.getElementById('modalDescription').innerHTML = formatDescription(description);
+            
+            // Details
+            const severity = getSeverity(issue.labels);
+            const category = getCategory(issue.labels);
+            
+            document.getElementById('modalSeverity').textContent = severity.charAt(0).toUpperCase() + severity.slice(1);
+            document.getElementById('modalCategory').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            document.getElementById('modalReported').textContent = formatFullDate(new Date(issue.created_at));
+            document.getElementById('modalUpdated').textContent = formatFullDate(new Date(issue.updated_at));
+            
+            // Labels
+            const labelsEl = document.getElementById('modalLabels');
+            labelsEl.innerHTML = issue.labels.map(label => {
+                let className = 'modal-label label';
+                if (label.name === 'bug') className += ' bug';
+                if (label.name.startsWith('severity:')) {
+                    className += ' ' + label.name.replace(':', '-');
+                }
+                if (label.name.startsWith('category:')) {
+                    className += ' ' + label.name.replace(':', '-');
+                }
+                return `<span class="${className}">${formatLabel(label.name)}</span>`;
+            }).join('');
+            
+            // Show modal
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+        
+        function updateStats() {
+            const total = allIssues.length;
+            const open = allIssues.filter(i => i.state === 'open').length;
+            
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('openCount').textContent = open;
+        }
+        
+        // Helper functions
+        function getIssueColumn(issue) {
+            const labels = issue.labels.map(l => l.name);
+            
+            if (issue.state === 'closed' || labels.includes('status:done')) {
+                return 'done';
+            } else if (labels.includes('status:testing')) {
+                return 'testing';
+            } else if (labels.includes('status:in-progress')) {
+                return 'in-progress';
+            } else if (labels.includes('status:todo')) {
+                return 'todo';
+            }
+            return 'backlog';
+        }
+        
+        function getSeverity(labels) {
+            const severityLabel = labels.find(l => l.name.startsWith('severity:'));
+            return severityLabel ? severityLabel.name.split(':')[1] : 'medium';
+        }
+        
+        function getCategory(labels) {
+            const categoryLabel = labels.find(l => l.name.startsWith('category:'));
+            return categoryLabel ? categoryLabel.name.split(':')[1] : 'general';
+        }
+        
+        function formatLabel(label) {
+            return label.replace('severity:', '').replace('category:', '').replace('status:', '');
+        }
+        
+        function formatDate(date) {
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (days === 0) return 'Today';
+            if (days === 1) return 'Yesterday';
+            if (days < 7) return `${days} days ago`;
+            if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
+            if (days < 365) return `${Math.floor(days / 30)} months ago`;
+            return `${Math.floor(days / 365)} years ago`;
+        }
+        
+        function formatFullDate(date) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        function formatDescription(text) {
+            // Convert markdown-like formatting to HTML
+            return escapeHtml(text)
+                .replace(/## (.*?)$/gm, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/- (.*?)$/gm, '• $1');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
     </script>
 </body>
 </html>

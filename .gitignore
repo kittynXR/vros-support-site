@@ -4,7 +4,6 @@ api/node_modules/
 bugs-tracker/node_modules/
 
 # Build outputs
-bugs/
 bugs-tracker/dist/
 
 # Environment files
