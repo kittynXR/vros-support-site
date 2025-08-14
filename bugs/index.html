@@ -15,18 +15,28 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
         }
         
         .header h1 {
@@ -44,11 +54,12 @@
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
             align-items: center;
+            flex-shrink: 0;
         }
         
         .search-box {
@@ -157,6 +168,8 @@
             gap: 20px;
             overflow-x: auto;
             padding-bottom: 20px;
+            flex: 1;
+            min-height: 0;
         }
         
         .column {
@@ -166,6 +179,22 @@
             min-width: 320px;
             flex-shrink: 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 280px);
+        }
+        
+        .column > div:last-child {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            min-height: 400px;
+        }
+        
+        .column > div:last-child.drag-over {
+            background: rgba(102, 126, 234, 0.05);
+            border: 2px dashed #667eea;
+            border-radius: 8px;
         }
         
         .column-header {
@@ -308,8 +337,13 @@
         .empty-state {
             text-align: center;
             color: #9ca3af;
-            padding: 40px 20px;
+            padding: 60px 20px;
             font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
         }
         
         .empty-state-icon {
@@ -565,6 +599,7 @@
             padding: 15px;
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
         }
         
         .quick-links-title {
@@ -1122,7 +1157,7 @@
         
         // Drag and Drop functionality
         function setupDragAndDrop() {
-            const columns = document.querySelectorAll('.column-content');
+            const columns = document.querySelectorAll('#backlog, #todo, #in-progress, #testing, #done');
             
             columns.forEach(column => {
                 column.addEventListener('dragover', handleDragOver);
@@ -1145,7 +1180,7 @@
             draggedIssue = null;
             
             // Remove all drag-over classes
-            document.querySelectorAll('.column-content').forEach(col => {
+            document.querySelectorAll('#backlog, #todo, #in-progress, #testing, #done').forEach(col => {
                 col.classList.remove('drag-over');
             });
         }
@@ -1156,8 +1191,8 @@
             }
             e.dataTransfer.dropEffect = 'move';
             
-            const column = e.target.closest('.column-content');
-            if (column && !column.classList.contains('drag-over')) {
+            const column = e.currentTarget;
+            if (column && column.id && !column.classList.contains('drag-over')) {
                 column.classList.add('drag-over');
             }
             
@@ -1165,7 +1200,7 @@
         }
         
         function handleDragLeave(e) {
-            const column = e.target.closest('.column-content');
+            const column = e.currentTarget;
             if (column && !column.contains(e.relatedTarget)) {
                 column.classList.remove('drag-over');
             }
@@ -1176,7 +1211,7 @@
                 e.stopPropagation();
             }
             
-            const column = e.target.closest('.column-content');
+            const column = e.currentTarget;
             if (!column || !draggedIssue) return;
             
             column.classList.remove('drag-over');
