@@ -1,0 +1,26 @@
+{
+  "name": "vros-api-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker API for VROS Bug Tracker",
+  "main": "worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:prod": "wrangler deploy --env production",
+    "tail": "wrangler tail",
+    "test": "curl http://localhost:8787/api/health",
+    "setup": "node -e \"process.platform === 'win32' ? require('child_process').exec('setup.bat') : require('child_process').exec('sh setup.sh')\""
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "api",
+    "github",
+    "bug-tracker"
+  ],
+  "author": "CatNet Systems",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

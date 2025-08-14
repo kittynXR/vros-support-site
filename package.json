@@ -1,0 +1,23 @@
+{
+  "name": "vros-support-site",
+  "version": "0.1.0",
+  "description": "VROS Support Site with Bug Tracker",
+  "scripts": {
+    "dev": "npx http-server . -p 8080 -c-1",
+    "build:tracker": "cd bugs-tracker && npm run build",
+    "deploy:prepare": "npm run build:tracker && cp -r bugs-tracker/dist/ bugs/",
+    "deploy": "npm run deploy:prepare && gh-pages -d .",
+    "serve": "npx http-server . -p 8080"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/catnet/vros-site.git"
+  },
+  "homepage": "https://support.vros.cat",
+  "author": "VROS Development Team",
+  "license": "MIT"
+}

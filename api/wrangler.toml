@@ -1,0 +1,53 @@
+name = "vros-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Account ID (get from Cloudflare dashboard)
+# account_id = "YOUR_ACCOUNT_ID"
+
+# Environment variables
+[vars]
+GITHUB_OWNER = "catnet"
+GITHUB_REPO = "vros-bugs"
+ALLOWED_ORIGINS = "https://support.vros.cat,https://bugs.vros.cat,http://localhost:5173,http://localhost:3000"
+
+# KV Namespaces (create these via wrangler or dashboard)
+# Run these commands to create:
+# wrangler kv:namespace create "TOKENS"
+# wrangler kv:namespace create "CACHE"  
+# wrangler kv:namespace create "RATE_LIMIT"
+# Then update the IDs below
+
+[[kv_namespaces]]
+binding = "TOKENS"
+id = "REPLACE_WITH_YOUR_TOKENS_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_YOUR_TOKENS_PREVIEW_ID"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "REPLACE_WITH_YOUR_CACHE_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_YOUR_CACHE_PREVIEW_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_YOUR_RATE_LIMIT_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_YOUR_RATE_LIMIT_PREVIEW_ID"
+
+# Routes (optional - can also configure in dashboard)
+# route = "api.vros.cat/*"
+
+# Custom domain (configure in dashboard)
+# workers_dev = false
+
+# Secrets (set via CLI)
+# Run these commands:
+# wrangler secret put GITHUB_TOKEN
+# wrangler secret put ADMIN_KEY
+
+# Development settings
+[env.development]
+vars = { GITHUB_OWNER = "catnet", GITHUB_REPO = "vros-bugs-dev" }
+
+# Production settings
+[env.production]
+vars = { GITHUB_OWNER = "catnet", GITHUB_REPO = "vros-bugs" }

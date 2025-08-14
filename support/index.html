@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VROS Support Center</title>
+    <meta name="description" content="Get help with VROS, report bugs, view documentation, and track development progress">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/support.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/assets/images/vros-logo.png" alt="VROS" class="nav-logo">
+                <span class="nav-title">Support Center</span>
+            </div>
+            <div class="nav-links">
+                <a href="#documentation">Docs</a>
+                <a href="#bugs">Bug Tracker</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="https://vros.cat">Main Site</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>VROS Support Center</h1>
+            <p class="hero-subtitle">Get help, report bugs, and track development</p>
+            
+            <div class="quick-actions">
+                <a href="/report-bug" class="btn btn-primary">
+                    <span class="btn-icon">🐛</span>
+                    Report a Bug
+                </a>
+                <a href="https://bugs.vros.cat" class="btn btn-secondary">
+                    <span class="btn-icon">📋</span>
+                    View All Issues
+                </a>
+                <a href="/patch-notes" class="btn btn-secondary">
+                    <span class="btn-icon">📰</span>
+                    Patch Notes
+                </a>
+                <a href="https://bugs.vros.cat/board" class="btn btn-secondary">
+                    <span class="btn-icon">🗺️</span>
+                    Roadmap
+                </a>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>Documentation</h3>
+                <p>Getting started guides, configuration, API reference, and tutorials</p>
+                <a href="/docs" class="card-link">Browse Documentation →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🔧</div>
+                <h3>Troubleshooting</h3>
+                <p>Common issues, solutions, and performance optimization tips</p>
+                <a href="/troubleshooting" class="card-link">Get Help →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">💬</div>
+                <h3>Community</h3>
+                <p>Join our Discord server for live support and discussions</p>
+                <a href="https://discord.gg/vros" class="card-link" target="_blank">Join Discord →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>System Status</h3>
+                <p>Current service availability and performance metrics</p>
+                <div class="status-indicator">
+                    <span class="status-dot status-ok"></span>
+                    <span id="status-text">All systems operational</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="recent-activity">
+            <h2>Recent Activity</h2>
+            <div class="activity-grid">
+                <div class="activity-section">
+                    <h3>Latest Fixes</h3>
+                    <div id="recent-fixes" class="issue-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+                <div class="activity-section">
+                    <h3>In Progress</h3>
+                    <div id="in-progress" class="issue-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+                <div class="activity-section">
+                    <h3>Upcoming Features</h3>
+                    <div id="upcoming" class="issue-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="issues-resolved">-</div>
+                <div class="stat-label">Issues Resolved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="open-issues">-</div>
+                <div class="stat-label">Open Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-resolution">-</div>
+                <div class="stat-label">Avg Resolution Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="community-size">-</div>
+                <div class="stat-label">Community Members</div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/docs">Documentation</a></li>
+                        <li><a href="/api">API Reference</a></li>
+                        <li><a href="/changelog">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/report-bug">Report Bug</a></li>
+                        <li><a href="/feature-request">Request Feature</a></li>
+                        <li><a href="/troubleshooting">Troubleshooting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/vros">Discord</a></li>
+                        <li><a href="https://github.com/catnet">GitHub</a></li>
+                        <li><a href="https://twitter.com/vros">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 CatNet Systems. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/support.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VROS Support</title>
+  <script>
+    // GitHub Pages SPA redirect script
+    // This script handles client-side routing for the bug tracker React app
+    var pathSegmentsToKeep = 0;
+    var l = window.location;
+    
+    // Only redirect if we're in the /bugs path
+    if (l.pathname.startsWith('/bugs')) {
+      pathSegmentsToKeep = 1;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + 
+        '/?/' + l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    } else {
+      // For non-/bugs paths, redirect to home
+      window.location.href = '/';
+    }
+  </script>
+</head>
+<body>
+  <noscript>
+    <p>Page not found. <a href="/">Return to home</a></p>
+  </noscript>
+</body>
+</html>

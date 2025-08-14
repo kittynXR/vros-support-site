@@ -1,0 +1,75 @@
+{
+  "versions": [
+    {
+      "version": "0.1.0",
+      "date": "2025-01-13",
+      "title": "Initial Release",
+      "type": "major",
+      "sections": {
+        "features": [
+          {
+            "title": "Core System",
+            "items": [
+              "Virtual Reality Overlay System foundation",
+              "Multi-overlay management and positioning",
+              "OpenVR integration with SteamVR support",
+              "Plugin-based architecture for extensibility"
+            ]
+          },
+          {
+            "title": "Desktop Core",
+            "items": [
+              "System tray integration for background operation",
+              "Desktop control panel for vrOS management",
+              "Process manager for overlay control",
+              "Stream tools integration",
+              "Performance monitoring dashboard",
+              "Dark theme UI optimized for OLED displays"
+            ]
+          },
+          {
+            "title": "VR Dashboard",
+            "items": [
+              "In-VR overlay management interface",
+              "Position layout editor with visual feedback",
+              "Real-time performance monitoring",
+              "Advanced debug tools for developers",
+              "Theme customization system",
+              "VR-optimized UI with large touch targets"
+            ]
+          },
+          {
+            "title": "Input System",
+            "items": [
+              "Virtual keyboard with swipe support",
+              "Laser pointer stabilization",
+              "Multi-controller input handling",
+              "Haptic feedback integration",
+              "Customizable input mappings"
+            ]
+          },
+          {
+            "title": "Audio System",
+            "items": [
+              "Unified audio routing (catnet-audio)",
+              "Text-to-speech integration",
+              "Speech-to-text with Whisper",
+              "Soundboard functionality",
+              "Audio device management"
+            ]
+          }
+        ],
+        "improvements": [],
+        "fixes": [],
+        "breaking": [
+          {
+            "title": "Crate Renaming",
+            "description": "common-audio has been renamed to catnet-audio",
+            "migration": "Update all imports from 'use common_audio::' to 'use catnet_audio::'"
+          }
+        ]
+      }
+    }
+  ],
+  "schema_version": "1.0.0"
+}
