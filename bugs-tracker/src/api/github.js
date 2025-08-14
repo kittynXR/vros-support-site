@@ -7,7 +7,7 @@ class GitHubAPI {
   constructor() {
     // Use Cloudflare Worker in production, direct GitHub API in development
     this.apiBase = import.meta.env.PROD 
-      ? 'https://api.vros.cat'
+      ? 'https://vros-api.hbrdzn8ttn.workers.dev/api'  // Direct worker URL until api.vros.cat is configured
       : 'http://localhost:8787/api'; // Cloudflare Worker local dev
     
     this.githubBase = 'https://api.github.com';

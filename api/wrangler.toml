@@ -9,7 +9,7 @@ compatibility_date = "2024-01-01"
 [vars]
 GITHUB_OWNER = "catnet-systems"
 GITHUB_REPO = "vros-bugs"
-ALLOWED_ORIGINS = "https://support.vros.cat,https://bugs.vros.cat,http://localhost:5173,http://localhost:3000"
+ALLOWED_ORIGINS = "https://support.vros.cat,https://bugs.vros.cat,http://localhost:5173,http://localhost:3000,https://vros-api.hbrdzn8ttn.workers.dev"
 
 # KV Namespaces (create these via wrangler or dashboard)
 # Run these commands to create:
