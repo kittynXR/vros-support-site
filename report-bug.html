@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report a Bug - VROS Support</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css-report/support.css">
+    <link rel="stylesheet" href="css-report/bug-form.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/support">
+                    <img src="/assets/images/vros-logo.png" alt="VROS" class="nav-logo">
+                </a>
+                <span class="nav-title">Bug Report</span>
+            </div>
+            <div class="nav-links">
+                <a href="/support">Support Home</a>
+                <a href="https://bugs.vros.cat">Bug Tracker</a>
+                <a href="/patch-notes">Patch Notes</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Report a Bug</h1>
+            <p class="form-subtitle">Help us improve VROS by reporting issues you encounter</p>
+
+            <form id="bug-report-form" class="bug-form">
+                <div class="form-section">
+                    <h3>Basic Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="title">Bug Title *</label>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            required
+                            placeholder="Brief description of the issue"
+                            maxlength="100"
+                        >
+                        <span class="form-hint">Be specific and concise</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="severity">Severity *</label>
+                            <select id="severity" name="severity" required>
+                                <option value="low">Low - Minor issue</option>
+                                <option value="medium" selected>Medium - Affects usage</option>
+                                <option value="high">High - Major feature broken</option>
+                                <option value="critical">Critical - App unusable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" name="category" required>
+                                <option value="general">General</option>
+                                <option value="vr">VR/Headset</option>
+                                <option value="overlay">Overlay System</option>
+                                <option value="performance">Performance</option>
+                                <option value="ui">UI/UX</option>
+                                <option value="audio">Audio</option>
+                                <option value="input">Input/Controls</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Bug Details</h3>
+                    
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea 
+                            id="description" 
+                            name="description" 
+                            required
+                            rows="4"
+                            placeholder="Describe what went wrong in detail"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="steps">Steps to Reproduce</label>
+                        <textarea 
+                            id="steps" 
+                            name="steps"
+                            rows="4"
+                            placeholder="1. Open the application&#10;2. Navigate to...&#10;3. Click on...&#10;4. Bug occurs"
+                        ></textarea>
+                        <span class="form-hint">Help us recreate the issue</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expected">Expected Behavior</label>
+                        <textarea 
+                            id="expected" 
+                            name="expected"
+                            rows="2"
+                            placeholder="What should happen normally"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="actual">Actual Behavior</label>
+                        <textarea 
+                            id="actual" 
+                            name="actual"
+                            rows="2"
+                            placeholder="What actually happened"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>System Information</h3>
+                    
+                    <div class="system-info" id="system-info">
+                        <div class="info-item">
+                            <span class="info-label">OS:</span>
+                            <span id="os-info">Detecting...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Browser:</span>
+                            <span id="browser-info">Detecting...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">App Version:</span>
+                            <span id="version-info">Not from app</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">VR Headset:</span>
+                            <select id="headset" name="headset">
+                                <option value="none">No VR / Not applicable</option>
+                                <option value="quest2">Meta Quest 2</option>
+                                <option value="quest3">Meta Quest 3</option>
+                                <option value="questpro">Meta Quest Pro</option>
+                                <option value="index">Valve Index</option>
+                                <option value="vive">HTC Vive</option>
+                                <option value="vivepro">HTC Vive Pro</option>
+                                <option value="pico">Pico</option>
+                                <option value="psvr2">PlayStation VR2</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additional">Additional Information</label>
+                        <textarea 
+                            id="additional" 
+                            name="additional"
+                            rows="3"
+                            placeholder="Any other relevant details, error messages, or context"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Contact (Optional)</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email"
+                                placeholder="your@email.com"
+                            >
+                            <span class="form-hint">For follow-up questions</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="discord">Discord Username</label>
+                            <input 
+                                type="text" 
+                                id="discord" 
+                                name="discord"
+                                placeholder="username#0000"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <span class="btn-icon">📤</span>
+                        Submit Bug Report
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            <div id="success-message" class="success-message" style="display: none;">
+                <div class="success-icon">✅</div>
+                <h2>Bug Report Submitted!</h2>
+                <p>Thank you for helping us improve VROS.</p>
+                <p>Your report has been assigned ID: <span id="issue-id"></span></p>
+                <div class="success-actions">
+                    <a href="#" id="issue-link" target="_blank" class="btn btn-primary">View Issue</a>
+                    <a href="/support" class="btn btn-secondary">Back to Support</a>
+                </div>
+            </div>
+
+            <div id="error-message" class="error-message" style="display: none;">
+                <div class="error-icon">❌</div>
+                <h2>Submission Failed</h2>
+                <p id="error-text">There was an error submitting your report. Please try again.</p>
+                <button onclick="retrySubmission()" class="btn btn-primary">Retry</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js-report/bug-form.js?v=2"></script>
+</body>
+</html>
