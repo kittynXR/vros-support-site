@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+api/node_modules/
+bugs-tracker/node_modules/
+
+# Build outputs
+bugs/
+bugs-tracker/dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Wrangler
+.wrangler/
+api/.wrangler/
+
+# Local settings
+.claude/
