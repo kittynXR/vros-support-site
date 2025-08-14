@@ -7,7 +7,7 @@ compatibility_date = "2024-01-01"
 
 # Environment variables
 [vars]
-GITHUB_OWNER = "catnet"
+GITHUB_OWNER = "catnet-systems"
 GITHUB_REPO = "vros-bugs"
 ALLOWED_ORIGINS = "https://support.vros.cat,https://bugs.vros.cat,http://localhost:5173,http://localhost:3000"
 
@@ -43,8 +43,8 @@ id = "deccc8329002482d861d294404ebb9b5"
 
 # Development settings
 [env.development]
-vars = { GITHUB_OWNER = "catnet", GITHUB_REPO = "vros-bugs-dev" }
+vars = { GITHUB_OWNER = "catnet-systems", GITHUB_REPO = "vros-bugs-dev" }
 
 # Production settings
 [env.production]
-vars = { GITHUB_OWNER = "catnet", GITHUB_REPO = "vros-bugs" }
+vars = { GITHUB_OWNER = "catnet-systems", GITHUB_REPO = "vros-bugs" }

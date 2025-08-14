@@ -11,7 +11,7 @@ class GitHubAPI {
       : 'http://localhost:8787/api'; // Cloudflare Worker local dev
     
     this.githubBase = 'https://api.github.com';
-    this.owner = 'catnet';
+    this.owner = 'catnet-systems';
     this.repo = 'vros-bugs';
     this.cache = new Map();
     this.cacheTimeout = 30000; // 30 seconds
