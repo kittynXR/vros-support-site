@@ -1,0 +1,594 @@
+/* ============================================================================
+   vrOS v2 — Component Primitives
+   ----------------------------------------------------------------------------
+   Production-ready CSS for the 7 core primitives. All state matrices live
+   here so Claude Code (or your devs) can port straight into vros/ui/src/.
+
+   Conventions:
+     • Class prefix: .vros-
+     • State via CSS pseudo-classes + aria-* + data-* — NO .is-active classes.
+     • All color via tokens. No hex in this file beyond glow shadow alphas
+       (which sample --primary via rgb(from ...)).
+     • :focus-visible uses --focus-ring (see tokens.css).
+   ============================================================================ */
+
+/* ── Global base ───────────────────────────────────────────────────────── */
+.vros-ui, .vros-ui *, .vros-ui *::before, .vros-ui *::after { box-sizing: border-box; }
+.vros-ui { font-family: var(--font-sans); color: var(--fg-1); -webkit-font-smoothing: antialiased; }
+
+/* Scope focus-visible to this system so we don't fight page-level outlines */
+.vros-ui :focus { outline: none; }
+.vros-ui :focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ============================================================================
+   1. BUTTON  (.vros-btn)
+   ----------------------------------------------------------------------------
+   Variants: primary · secondary · ghost · danger · link
+   Sizes:    sm · md (default) · lg · icon
+   States:   rest · hover · active(:active) · focus-visible · disabled · loading · selected(aria-pressed)
+
+   KEY FIX vs v1:
+     • Glow is a ring-only box-shadow with spread. Never tints the face.
+     • Selected/pressed state uses --primary-soft (face tint), separately
+       from glow, so "medium glow + selected" looks correct.
+   ============================================================================ */
+.vros-btn {
+  --btn-h: 32px;
+  --btn-px: 12px;
+  --btn-fs: 13px;
+  --btn-gap: 6px;
+  --btn-radius: var(--radius-md);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  height: var(--btn-h);
+  padding: 0 var(--btn-px);
+  font-family: inherit;
+  font-size: var(--btn-fs);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+  /* Face color and text color are set by variant. Glow is appended via
+     box-shadow so pressed/hover/focus compose cleanly. */
+}
+.vros-btn:active:not(:disabled) { transform: translateY(0.5px); }
+.vros-btn:disabled,
+.vros-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+
+/* sizes */
+.vros-btn[data-size="sm"]   { --btn-h: 26px; --btn-px: 10px; --btn-fs: 12px; }
+.vros-btn[data-size="lg"]   { --btn-h: 40px; --btn-px: 16px; --btn-fs: 14px; }
+.vros-btn[data-size="icon"] { --btn-h: 32px; --btn-px: 0;    width: 32px; --btn-gap: 0; }
+
+/* ── Variant: primary ── */
+.vros-btn[data-variant="primary"] {
+  background: var(--primary);
+  color: var(--primary-on);
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+.vros-btn[data-variant="primary"]:hover:not(:disabled) {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+.vros-btn[data-variant="primary"]:active:not(:disabled) {
+  background: var(--primary-press);
+  border-color: var(--primary-press);
+}
+
+/* ── Variant: secondary ── (outline-only, bordered) */
+.vros-btn[data-variant="secondary"] {
+  background: var(--surface-2);
+  color: var(--fg-1);
+  border-color: var(--border);
+}
+.vros-btn[data-variant="secondary"]:hover:not(:disabled) {
+  background: var(--surface-3);
+  border-color: var(--border-strong);
+}
+.vros-btn[data-variant="secondary"]:active:not(:disabled) {
+  background: var(--surface-2);
+}
+.vros-btn[data-variant="secondary"][aria-pressed="true"] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--fg-1);
+  box-shadow: var(--glow);
+}
+
+/* ── Variant: ghost ── (no fill, no border) */
+.vros-btn[data-variant="ghost"] {
+  background: transparent;
+  color: var(--fg-2);
+  border-color: transparent;
+}
+.vros-btn[data-variant="ghost"]:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--fg-1);
+}
+.vros-btn[data-variant="ghost"]:active:not(:disabled) {
+  background: var(--surface-2);
+}
+.vros-btn[data-variant="ghost"][aria-pressed="true"] {
+  background: var(--primary-soft);
+  color: var(--fg-1);
+}
+
+/* ── Variant: danger ── */
+.vros-btn[data-variant="danger"] {
+  background: var(--error);
+  color: var(--error-on);
+  border-color: var(--error);
+}
+.vros-btn[data-variant="danger"]:hover:not(:disabled) { filter: brightness(1.1); }
+.vros-btn[data-variant="danger"]:active:not(:disabled) { filter: brightness(0.9); }
+
+/* ── Variant: link ── */
+.vros-btn[data-variant="link"] {
+  --btn-h: auto;
+  --btn-px: 0;
+  background: transparent;
+  color: var(--primary);
+  border-color: transparent;
+  height: auto;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(from var(--primary) r g b / 0.5);
+}
+.vros-btn[data-variant="link"]:hover:not(:disabled) {
+  text-decoration-color: currentColor;
+}
+
+/* Loading state (any variant) — icon slot should contain a spinner */
+.vros-btn[data-loading="true"] { pointer-events: none; }
+.vros-btn[data-loading="true"] .vros-btn-label { opacity: 0.7; }
+
+/* ============================================================================
+   2. TOGGLE  (.vros-toggle)
+   ----------------------------------------------------------------------------
+   Track: 34×18.  Thumb: 14px.  Uses --primary-soft when off so the track
+   is visible against all surface tiers.
+   ============================================================================ */
+.vros-toggle {
+  --track-w: 34px;
+  --track-h: 18px;
+  --thumb: 14px;
+  --pad: 2px;
+
+  position: relative;
+  display: inline-block;
+  width: var(--track-w);
+  height: var(--track-h);
+  border-radius: var(--radius-pill);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.vros-toggle::after {
+  content: "";
+  position: absolute;
+  top: var(--pad);
+  left: var(--pad);
+  width: var(--thumb);
+  height: var(--thumb);
+  border-radius: var(--radius-pill);
+  background: var(--fg-2);
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.vros-toggle[aria-checked="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+.vros-toggle[aria-checked="true"]::after {
+  background: var(--primary-on);
+  transform: translateX(calc(var(--track-w) - var(--thumb) - var(--pad) * 2 - 2px));
+}
+.vros-toggle[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+
+/* ============================================================================
+   3. INPUT  (.vros-input)
+   ============================================================================ */
+.vros-input {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--fg-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.vros-input::placeholder { color: var(--fg-4); }
+.vros-input:hover:not(:disabled) { border-color: var(--border-strong); }
+.vros-input:focus-visible {
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+}
+.vros-input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+.vros-input[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--surface-0), 0 0 0 4px rgb(from var(--error) r g b / 0.4);
+}
+.vros-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ============================================================================
+   4. SELECT  (.vros-select)
+   ----------------------------------------------------------------------------
+   Uses native <select> for now. The chevron is a background-image so it
+   doesn't require a wrapper. Popover listbox styling is in .vros-listbox.
+   ============================================================================ */
+.vros-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 0 28px 0 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--fg-1);
+  background-color: var(--surface-2);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%238a8ca1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 5 6 8 9 5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.vros-select:hover:not(:disabled) { border-color: var(--border-strong); }
+.vros-select:focus-visible { border-color: var(--primary); box-shadow: var(--focus-ring); }
+
+.vros-listbox {
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev-2);
+  padding: 4px;
+  min-width: 160px;
+}
+.vros-listbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: var(--fg-1);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+.vros-listbox-item:hover { background: var(--surface-3); }
+.vros-listbox-item[aria-selected="true"] {
+  background: var(--primary-soft);
+  color: var(--fg-1);
+}
+
+/* ============================================================================
+   5. TABS  (.vros-tabs)
+   ----------------------------------------------------------------------------
+   Horizontal tab bar with underline + tint active state.
+   ============================================================================ */
+.vros-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  border-bottom: 1px solid var(--border);
+}
+.vros-tab {
+  position: relative;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.vros-tab:hover { color: var(--fg-1); background: var(--surface-2); }
+.vros-tab[aria-selected="true"] {
+  color: var(--fg-1);
+  background: var(--primary-soft);
+}
+.vros-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 8px; right: 8px; bottom: -1px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 6px rgb(from var(--primary) r g b / 0.5);
+}
+
+/* ============================================================================
+   6. CARD  (.vros-card)
+   ============================================================================ */
+.vros-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+}
+.vros-card[data-raised="true"] {
+  background: var(--surface-3);
+}
+.vros-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1) var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.vros-card-title { font-size: 13px; font-weight: 600; color: var(--fg-1); }
+
+/* ============================================================================
+   7. SETTINGS ROW  (.vros-setting)
+   ----------------------------------------------------------------------------
+   The repeating row in Settings: label + description + control.
+   ============================================================================ */
+.vros-setting {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.vros-setting:last-child { border-bottom: none; }
+.vros-setting-label { font-size: 13px; font-weight: 500; color: var(--fg-1); }
+.vros-setting-hint  { font-size: 12px; color: var(--fg-3); margin-top: 2px; }
+.vros-setting-control { display: flex; align-items: center; gap: 8px; }
+
+/* ============================================================================
+   BADGE  (bonus — tiny, used by FPS/status chips)
+   ============================================================================ */
+.vros-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: var(--radius-xs);
+  background: var(--surface-3);
+  color: var(--fg-2);
+  border: 1px solid var(--border);
+}
+.vros-badge[data-tone="success"] { background: rgb(from var(--success) r g b / 0.14); color: var(--success-fg); border-color: rgb(from var(--success) r g b / 0.3); }
+.vros-badge[data-tone="warning"] { background: rgb(from var(--warning) r g b / 0.14); color: var(--warning-fg); border-color: rgb(from var(--warning) r g b / 0.3); }
+.vros-badge[data-tone="error"]   { background: rgb(from var(--error)   r g b / 0.14); color: var(--error-fg);   border-color: rgb(from var(--error)   r g b / 0.3); }
+.vros-badge[data-tone="primary"] { background: var(--primary-soft); color: var(--fg-1); border-color: rgb(from var(--primary) r g b / 0.3); }
+
+/* ============================================================================
+   8. CHECKBOX  (.vros-checkbox)
+   ============================================================================ */
+.vros-checkbox {
+  appearance: none;
+  width: 16px; height: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+.vros-checkbox:hover:not(:disabled) { border-color: var(--primary); }
+.vros-checkbox:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+.vros-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='2.5 6 5 8.5 9.5 3.5'/></svg>");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.vros-checkbox:indeterminate {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.vros-checkbox:indeterminate::after {
+  content: "";
+  position: absolute;
+  left: 3px; right: 3px; top: 50%;
+  height: 2px; margin-top: -1px;
+  background: var(--primary-on);
+  border-radius: 1px;
+}
+.vros-checkbox:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ============================================================================
+   9. RADIO  (.vros-radio)
+   ============================================================================ */
+.vros-radio {
+  appearance: none;
+  width: 16px; height: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+.vros-radio:hover:not(:disabled) { border-color: var(--primary); }
+.vros-radio:checked {
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+.vros-radio:checked::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+.vros-radio:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ============================================================================
+   10. SLIDER  (.vros-slider)
+   ----------------------------------------------------------------------------
+   Native <input type="range"> with restyled track + thumb.
+   ============================================================================ */
+.vros-slider {
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+}
+.vros-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+}
+.vros-slider::-moz-range-track {
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+}
+.vros-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px; height: 14px;
+  background: var(--primary);
+  border: 2px solid var(--fg-1);
+  border-radius: 50%;
+  margin-top: -6px;
+  box-shadow: var(--glow);
+  cursor: grab;
+}
+.vros-slider::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: var(--primary);
+  border: 2px solid var(--fg-1);
+  border-radius: 50%;
+  box-shadow: var(--glow);
+  cursor: grab;
+}
+.vros-slider:active::-webkit-slider-thumb { cursor: grabbing; }
+.vros-slider:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ============================================================================
+   11. TEXTAREA  (.vros-textarea)
+   ============================================================================ */
+.vros-textarea {
+  display: block;
+  width: 100%;
+  min-height: 72px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  resize: vertical;
+}
+.vros-textarea::placeholder { color: var(--fg-4); }
+.vros-textarea:hover:not(:disabled) { border-color: var(--border-strong); }
+.vros-textarea:focus-visible {
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* ============================================================================
+   12. MODAL  (.vros-modal)
+   ============================================================================ */
+.vros-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.vros-modal {
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-2);
+  min-width: 320px;
+  max-width: 520px;
+  overflow: hidden;
+}
+.vros-modal-hdr {
+  padding: 18px 22px 0;
+}
+.vros-modal-title {
+  font-size: 15px; font-weight: 600; color: var(--fg-1);
+  margin: 0 0 6px;
+}
+.vros-modal-body {
+  padding: 10px 22px 18px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+.vros-modal-ftr {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 22px;
+  background: var(--surface-0);
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================================================
+   13. TOAST / ALERT  (.vros-toast)
+   ============================================================================ */
+.vros-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--fg-3);
+  border-radius: var(--radius-md);
+  min-width: 280px;
+  max-width: 440px;
+}
+.vros-toast[data-tone="success"] { border-left-color: var(--success); }
+.vros-toast[data-tone="warning"] { border-left-color: var(--warning); }
+.vros-toast[data-tone="error"]   { border-left-color: var(--error); }
+.vros-toast[data-tone="info"]    { border-left-color: var(--primary); }
+.vros-toast-body { flex: 1; }
+.vros-toast-title { font-size: 13px; font-weight: 600; color: var(--fg-1); margin: 0 0 2px; }
+.vros-toast-desc  { font-size: 12px; color: var(--fg-3); margin: 0; line-height: 1.45; }
+.vros-toast-close {
+  background: none;
+  border: none;
+  padding: 2px;
+  color: var(--fg-4);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+}
+.vros-toast-close:hover { color: var(--fg-1); background: var(--surface-3); }

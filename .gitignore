@@ -1,31 +1,4 @@
-# Dependencies
 node_modules/
-api/node_modules/
-bugs-tracker/node_modules/
-
-# Build outputs
-bugs-tracker/dist/
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-npm-debug.log*
-
-# Cache
-.cache/
+dist/
 .DS_Store
-
-# IDE
-.vscode/
-.idea/
-
-# Wrangler
-.wrangler/
-api/.wrangler/
-
-# Local settings
-.claude/
+npm-debug.log*

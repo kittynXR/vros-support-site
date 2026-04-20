@@ -1,0 +1,156 @@
+/* ============================================================================
+   vrOS Design System — v2 tokens
+   ----------------------------------------------------------------------------
+   Production-ready. Drop into vros/ui/src/ as tokens.css and import once.
+   Every token is derived from a small set of primitives so themes only need
+   to override ~12 values.
+   ============================================================================ */
+
+:root {
+  /* ── Type stack (Phase D4) ──────────────────────────────────────────────
+     Chrome font is IBM Plex Sans (Latin subset, shipped). CJK + fallback
+     rely on the OS stack — users install Plex Sans JP/KR/SC system-wide
+     or keep Noto CJK which is already standard on most rigs. */
+  --font-sans:
+    "IBM Plex Sans",
+    "IBM Plex Sans JP", "IBM Plex Sans KR", "IBM Plex Sans SC", "IBM Plex Sans TC",
+    "Noto Sans", "Noto Sans CJK JP", "Noto Sans CJK KR", "Noto Sans CJK SC",
+    system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    "IBM Plex Mono",
+    "JetBrains Mono", "FiraCode Nerd Font", "Cascadia Code",
+    Menlo, Consolas, monospace;
+
+  /* ── Surface ladder (Phase A3) ──────────────────────────────────────────
+     Luminance steps ≈ 8% between tiers, up from the old 5%. Feels less
+     muddy in VR where chroma is crushed by the compositor. */
+  --surface-0:     #0f0f18;   /* window / deepest   */
+  --surface-1:     #171722;   /* base chrome        */
+  --surface-2:     #20202e;   /* cards              */
+  --surface-3:     #2a2a3a;   /* raised / selected  */
+  --surface-4:     #353548;   /* hover on raised    */
+  --border:        #3d3d54;   /* hairline           */
+  --border-strong: #525272;   /* emphasised divider */
+  --border-subtle: #2a2a3a;   /* same as surface-3 — disappears when wanted */
+
+  /* ── Foreground ─────────────────────────────────────────────────────────
+     4-step ramp. Content ≥ 14:1 contrast on surface-1; muted still ≥ 4.5:1. */
+  --fg-1:  #f5f6fb;   /* body / primary text         */
+  --fg-2:  #c9cad6;   /* labels / secondary          */
+  --fg-3:  #8a8ca1;   /* descriptions / hint         */
+  --fg-4:  #5f6179;   /* placeholder / disabled text */
+
+  /* ── Primary / accent ───────────────────────────────────────────────────
+     Theme-overridable. Default is indigo. */
+  --primary:        #6366f1;
+  --primary-hover:  #7d80f3;   /* +8 L* */
+  --primary-press:  #4f52d6;   /* −8 L* */
+  --primary-soft:   rgba(99, 102, 241, 0.14);   /* tint — tabs, selection */
+  --primary-ring:   rgba(99, 102, 241, 0.40);   /* focus ring */
+  --primary-on:     #ffffff;                    /* text on primary fill */
+
+  /* ── Semantic ───────────────────────────────────────────────────────────
+     Each has -fg (for text on dark bg) and -on (for text on filled chip). */
+  --error:     #ef4444;  --error-fg:   #fda4a4;  --error-on:   #ffffff;
+  --success:   #22c55e;  --success-fg: #86efac;  --success-on: #0a2a17;
+  --warning:   #f59e0b;  --warning-fg: #fcd34d;  --warning-on: #3d2500;
+
+  /* ── Radii ──────────────────────────────────────────────────────────────
+     One step tighter than v1 — the old 6/8/12 ladder read as generic.
+     v2 commits to slightly sharper corners to feel more instrumental. */
+  --radius-xs: 3px;    /* chip, toggle track inner */
+  --radius-sm: 5px;    /* input, small button      */
+  --radius-md: 7px;    /* button, card, panel      */
+  --radius-lg: 10px;   /* modal, hero card         */
+  --radius-pill: 9999px;
+
+  /* ── Spacing ────────────────────────────────────────────────────────────
+     Baseline 4px. Exposed as --sp-* for primitives, Tailwind rem units
+     map 1:1 via the scale. */
+  --sp-1: 4px;  --sp-1_5: 6px;
+  --sp-2: 8px;  --sp-3: 12px;
+  --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px;
+  --sp-10: 40px; --sp-12: 48px;
+
+  /* ── GLOW SYSTEM (Phase A1 — the big fix) ───────────────────────────────
+     The v1 bug: theme glow was a single `box-shadow: 0 0 <size> <color>`
+     with no spread control, no inset separation from the border, and
+     worst of all — glow was wired onto the button body, so at `medium`
+     the entire button face looked tinted.
+
+     v2 rules:
+       • Glow is ALWAYS an outset ring that starts AT THE BORDER. It uses
+         spread (not blur alone) so it looks like a halo, not a flare.
+       • Glow is painted via a CSS variable so one component rule handles
+         all four intensities.
+       • There are exactly 4 levels. Themes set --glow-level, not arbitrary px.
+       • The button face is NEVER glow-tinted. Face tinting is a separate
+         token (--primary-soft) for active/selected states only.
+
+     Formula: box-shadow: 0 0 <blur> <spread> <color>;
+              no offset, spread controls halo reach, color is always --primary.
+  */
+  --glow-level: 0;   /* 0=off · 1=subtle · 2=medium · 3=strong */
+
+  --glow-0-blur:   0;   --glow-0-spread:  0;    --glow-0-alpha: 0;
+  --glow-1-blur:   4px; --glow-1-spread:  0;    --glow-1-alpha: 0.35;
+  --glow-2-blur:   8px; --glow-2-spread:  1px;  --glow-2-alpha: 0.45;
+  --glow-3-blur:  14px; --glow-3-spread:  2px;  --glow-3-alpha: 0.55;
+
+  /* Per-level channels so themes can pick one. Each is a real shadow. */
+  --glow-0: 0 0 0 rgba(0,0,0,0);
+  --glow-1: 0 0 var(--glow-1-blur) var(--glow-1-spread) rgb(from var(--primary) r g b / var(--glow-1-alpha));
+  --glow-2: 0 0 var(--glow-2-blur) var(--glow-2-spread) rgb(from var(--primary) r g b / var(--glow-2-alpha));
+  --glow-3: 0 0 var(--glow-3-blur) var(--glow-3-spread) rgb(from var(--primary) r g b / var(--glow-3-alpha));
+
+  /* Resolved glow — this is what components consume. */
+  --glow:
+    var(--glow-0);
+
+  /* ── FOCUS-VISIBLE SYSTEM (Phase A2) ────────────────────────────────────
+     v1 used a 2px solid outline at 2px offset. Problems:
+       • In VR gaze-hover states inherit focus-visible behaviour inconsistently
+         across Ultralight versions, so the outline flashed on cursor move.
+       • A bare outline reads as "browser default" and doesn't feel branded.
+     v2:
+       • 2px primary ring + 1px inset highlight on a translucent layer.
+       • Applied via `box-shadow` stack so it composes with --glow.
+       • Global rule scopes it strictly to :focus-visible (keyboard / programmatic).
+  */
+  --focus-ring:
+    0 0 0 2px var(--surface-0),           /* gap from surrounding elements */
+    0 0 0 4px var(--primary-ring),        /* halo */
+    inset 0 0 0 1px rgb(from var(--primary) r g b / 0.6);  /* inner bright edge */
+
+  /* ── Elevation (non-glow) ───────────────────────────────────────────────
+     Used only on modals + select popovers. Not a general card lift. */
+  --elev-1: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --elev-2: 0 16px 40px rgba(0, 0, 0, 0.55);
+
+  /* ── Motion ─────────────────────────────────────────────────────────────
+     v1 zeroed all color transitions globally. v2 keeps that (Ultralight
+     flashes mid-transition), but whitelists transform + opacity. */
+  --dur-instant: 0ms;
+  --dur-fast:    120ms;
+  --dur-base:    180ms;
+  --ease-out:    cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ── Apply resolved glow based on --glow-level ─────────────────────────── */
+[data-glow="1"] { --glow: var(--glow-1); }
+[data-glow="2"] { --glow: var(--glow-2); }
+[data-glow="3"] { --glow: var(--glow-3); }
+
+/* ============================================================================
+   SEMANTIC TYPE ROLES
+   ============================================================================ */
+.type-display { font-family: var(--font-sans); font-size: 28px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; color: var(--fg-1); }
+.type-h1      { font-family: var(--font-sans); font-size: 18px; line-height: 1.3;  font-weight: 600; letter-spacing: -0.01em; color: var(--fg-1); }
+.type-h2      { font-family: var(--font-sans); font-size: 16px; line-height: 1.35; font-weight: 600; color: var(--fg-1); }
+.type-h3      { font-family: var(--font-sans); font-size: 14px; line-height: 1.4;  font-weight: 600; color: var(--fg-1); }
+.type-body    { font-family: var(--font-sans); font-size: 14px; line-height: 1.5;  font-weight: 400; color: var(--fg-1); }
+.type-label   { font-family: var(--font-sans); font-size: 13px; line-height: 1.4;  font-weight: 500; color: var(--fg-2); }
+.type-small   { font-family: var(--font-sans); font-size: 12px; line-height: 1.4;  font-weight: 400; color: var(--fg-3); }
+.type-micro   { font-family: var(--font-sans); font-size: 10px; line-height: 1.2;  font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-3); }
+.type-mono    { font-family: var(--font-mono); font-size: 12px; line-height: 1.5;  color: var(--fg-2); }

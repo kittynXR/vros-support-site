@@ -1,0 +1,459 @@
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/fonts/IBMPlexSans-Variable-Latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top right, rgb(from var(--primary) r g b / 0.12), transparent 26%),
+    linear-gradient(180deg, var(--surface-0), var(--surface-1));
+  color: var(--fg-1);
+}
+
+a {
+  color: inherit;
+}
+
+a.vros-btn {
+  text-decoration: none;
+}
+
+.support-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.support-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgb(from var(--primary) r g b / 0.08) 0%, transparent 35%),
+    linear-gradient(180deg, transparent 0%, rgb(from var(--surface-4) r g b / 0.12) 100%);
+  pointer-events: none;
+}
+
+.support-topbar,
+.support-layout,
+.support-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.support-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-5) 0;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(from var(--primary) r g b / 0.28);
+  background: var(--surface-2);
+  box-shadow: var(--glow);
+}
+
+.brand-kicker {
+  margin: 0 0 2px;
+}
+
+.brand-name {
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.topbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.support-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--sp-6);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-5) var(--sp-12);
+}
+
+.support-sidebar {
+  align-self: start;
+  display: grid;
+  gap: var(--sp-5);
+  padding: var(--sp-4);
+  position: sticky;
+  top: var(--sp-5);
+  background: rgb(from var(--surface-2) r g b / 0.82);
+  backdrop-filter: blur(16px);
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--fg-2);
+  text-decoration: none;
+  background: transparent;
+  transition:
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.sidebar-link:hover {
+  color: var(--fg-1);
+  background: rgb(from var(--surface-3) r g b / 0.85);
+}
+
+.sidebar-link.is-active {
+  color: var(--fg-1);
+  border-color: rgb(from var(--primary) r g b / 0.35);
+  background: var(--primary-soft);
+  box-shadow: var(--glow);
+}
+
+.sidebar-callout {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid rgb(from var(--border) r g b / 0.75);
+  border-radius: var(--radius-md);
+  background: rgb(from var(--surface-1) r g b / 0.84);
+}
+
+.sidebar-callout p,
+.content-header p,
+.content-header h1,
+.hero-card h2,
+.hero-card p,
+.support-tile h3,
+.support-tile p,
+.prep-card p,
+.prep-grid h3,
+.prep-grid p,
+.troubleshoot-card h2,
+.troubleshoot-card p,
+.issue-card h2,
+.issue-card p,
+.status-card h2,
+.status-card p,
+.status-note p,
+.bug-form p,
+.system-row span,
+.community-grid p,
+.community-grid h2 {
+  margin: 0;
+}
+
+.support-content {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.content-header {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-6);
+  border: 1px solid rgb(from var(--border) r g b / 0.72);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgb(from var(--primary) r g b / 0.08), transparent 46%),
+    rgb(from var(--surface-1) r g b / 0.82);
+  backdrop-filter: blur(12px);
+}
+
+.content-stack,
+.community-grid,
+.status-grid,
+.report-layout,
+.home-grid,
+.issue-grid,
+.prep-grid,
+.troubleshoot-grid {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
+  gap: var(--sp-5);
+  padding: var(--sp-5);
+}
+
+.hero-card-copy {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.hero-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.hero-card-image {
+  width: 100%;
+  align-self: stretch;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgb(from var(--primary) r g b / 0.2);
+  background: var(--surface-1);
+}
+
+.home-grid,
+.issue-grid,
+.community-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.support-tile,
+.prep-card,
+.troubleshoot-card,
+.issue-card,
+.status-card,
+.status-note,
+.bug-form,
+.community-grid > .vros-card {
+  padding: var(--sp-5);
+}
+
+.support-tile {
+  text-decoration: none;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.support-tile:hover {
+  transform: translateY(-2px);
+}
+
+.prep-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--sp-4);
+}
+
+.troubleshoot-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.step-list {
+  display: grid;
+  gap: var(--sp-3);
+  padding-left: 20px;
+  margin: 0;
+}
+
+.issue-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+
+.status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.status-card {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.status-note {
+  grid-column: 1 / -1;
+  background:
+    linear-gradient(135deg, rgb(from var(--primary) r g b / 0.06), transparent 44%),
+    rgb(from var(--surface-1) r g b / 0.88);
+}
+
+.report-layout {
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  align-items: start;
+}
+
+.bug-form,
+.sidebar-stack {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.field-block {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.bug-textarea {
+  min-height: 136px;
+  padding-top: 10px;
+  resize: vertical;
+}
+
+.bug-textarea-sm {
+  min-height: 110px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.submission-state {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(from var(--border) r g b / 0.78);
+}
+
+.submission-state.is-success {
+  background: rgb(from var(--success) r g b / 0.12);
+  border-color: rgb(from var(--success) r g b / 0.3);
+}
+
+.submission-state.is-error {
+  background: rgb(from var(--error) r g b / 0.12);
+  border-color: rgb(from var(--error) r g b / 0.32);
+}
+
+.submission-state.is-loading {
+  background: rgb(from var(--primary) r g b / 0.1);
+  border-color: rgb(from var(--primary) r g b / 0.3);
+}
+
+.system-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-top: var(--sp-3);
+  margin-top: var(--sp-3);
+  border-top: 1px solid rgb(from var(--border) r g b / 0.6);
+}
+
+.system-row:first-of-type {
+  margin-top: 0;
+}
+
+.support-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-5) var(--sp-6);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+.footer-links a {
+  color: var(--fg-2);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+@media (max-width: 1100px) {
+  .support-layout,
+  .hero-card,
+  .report-layout,
+  .prep-grid,
+  .troubleshoot-grid,
+  .home-grid,
+  .issue-grid,
+  .community-grid,
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .support-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 780px) {
+  .support-topbar,
+  .support-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .support-topbar {
+    padding-left: var(--sp-4);
+    padding-right: var(--sp-4);
+  }
+
+  .support-layout,
+  .support-footer {
+    padding-left: var(--sp-4);
+    padding-right: var(--sp-4);
+  }
+
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-header,
+  .support-tile,
+  .prep-card,
+  .troubleshoot-card,
+  .issue-card,
+  .status-card,
+  .status-note,
+  .bug-form,
+  .community-grid > .vros-card,
+  .hero-card {
+    padding: var(--sp-4);
+  }
+}

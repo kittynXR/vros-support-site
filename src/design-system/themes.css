@@ -1,0 +1,192 @@
+/* ============================================================================
+   vrOS Design System — v2 themes
+   ----------------------------------------------------------------------------
+   8 curated dark-mode presets. Each theme ONLY overrides the small token
+   set defined in theme-contract.md — everything else derives from these.
+
+   Theme authoring rules (enforced by the contract doc):
+     • Must override: --primary, --primary-hover, --primary-press,
+       --primary-soft, --primary-ring, --primary-on.
+     • May override: surface ladder (0–4), border, border-strong, fg ramp.
+     • Should declare a suggested --glow-level (themes feel best at a
+       specific default glow; user can override in settings).
+     • Must maintain ≥4.5:1 contrast of --fg-1 on --surface-1 and
+       ≥3:1 of --primary-on on --primary.
+   ============================================================================ */
+
+/* ── 1. INDIGO (default) ───────────────────────────────────────────────────
+   Balanced, neutral-leaning. The "it just works" theme. Recommended glow: 1.
+*/
+[data-theme="indigo"] {
+  --primary:       #6366f1;
+  --primary-hover: #7d80f3;
+  --primary-press: #4f52d6;
+  --primary-soft:  rgba(99, 102, 241, 0.14);
+  --primary-ring:  rgba(99, 102, 241, 0.40);
+  --primary-on:    #ffffff;
+  --glow-level: 1;
+}
+
+/* ── 2. NEON ───────────────────────────────────────────────────────────────
+   Cyberpunk cyan. Deep cold surfaces, high-saturation accent. v1 QA
+   problem: neon + medium glow tinted entire buttons teal — fixed by the
+   new glow system. Surfaces pushed cooler (blue channel bumped). Glow: 2.
+*/
+[data-theme="neon"] {
+  --surface-0:     #07080f;
+  --surface-1:     #0d1018;
+  --surface-2:     #141824;
+  --surface-3:     #1d2332;
+  --surface-4:     #262e42;
+  --border:        #2d3850;
+  --border-strong: #3e4d6e;
+
+  --primary:       #22d3ee;
+  --primary-hover: #4ae0f5;
+  --primary-press: #0db8d4;
+  --primary-soft:  rgba(34, 211, 238, 0.14);
+  --primary-ring:  rgba(34, 211, 238, 0.42);
+  --primary-on:    #03131a;
+  --glow-level: 2;
+}
+
+/* ── 3. SAKURA ─────────────────────────────────────────────────────────────
+   Soft pink on warm-dark. v1 was too candy-pink; v2 pulls it toward rose
+   and desaturates surfaces so pink doesn't fight the chrome. Glow: 1.
+*/
+[data-theme="sakura"] {
+  --surface-0:     #14101a;
+  --surface-1:     #1d1822;
+  --surface-2:     #26202e;
+  --surface-3:     #332a3d;
+  --surface-4:     #3f3549;
+  --border:        #463a52;
+  --border-strong: #5d4e6c;
+
+  --primary:       #f472b6;
+  --primary-hover: #f78fc5;
+  --primary-press: #d15a9a;
+  --primary-soft:  rgba(244, 114, 182, 0.14);
+  --primary-ring:  rgba(244, 114, 182, 0.40);
+  --primary-on:    #2a0a1c;
+  --glow-level: 1;
+}
+
+/* ── 4. EMBER ──────────────────────────────────────────────────────────────
+   Warm amber. v1 was pure orange on cool gray — jarring. v2 warms the
+   surface stack (brown-shifted) so amber feels at home. Glow: 2.
+*/
+[data-theme="ember"] {
+  --surface-0:     #110c08;
+  --surface-1:     #1a1410;
+  --surface-2:     #241c15;
+  --surface-3:     #30261d;
+  --surface-4:     #3d3126;
+  --border:        #483a2c;
+  --border-strong: #60503e;
+
+  --primary:       #f97316;
+  --primary-hover: #fb8d3c;
+  --primary-press: #d85d0a;
+  --primary-soft:  rgba(249, 115, 22, 0.14);
+  --primary-ring:  rgba(249, 115, 22, 0.42);
+  --primary-on:    #1a0d03;
+  --glow-level: 2;
+}
+
+/* ── 5. VOID ───────────────────────────────────────────────────────────────
+   Near-black with violet accent. v1 was straight purple-on-gray. v2 goes
+   deeper black and pushes accent more blue-violet for clarity. Glow: 1.
+*/
+[data-theme="void"] {
+  --surface-0:     #050508;
+  --surface-1:     #0c0c12;
+  --surface-2:     #14141d;
+  --surface-3:     #1c1c28;
+  --surface-4:     #262635;
+  --border:        #2a2a3d;
+  --border-strong: #3d3d55;
+
+  --primary:       #a78bfa;
+  --primary-hover: #b9a3fb;
+  --primary-press: #8b6de0;
+  --primary-soft:  rgba(167, 139, 250, 0.14);
+  --primary-ring:  rgba(167, 139, 250, 0.40);
+  --primary-on:    #0c0620;
+  --glow-level: 1;
+}
+
+/* ── 6. TERMINAL ───────────────────────────────────────────────────────────
+   CRT-adjacent phosphor green on near-black. Mono body font. Feels
+   instrumental — recommended for power-user heavy configs. Glow: 3.
+*/
+[data-theme="terminal"] {
+  --font-sans:
+    "IBM Plex Mono", "JetBrains Mono", "FiraCode Nerd Font",
+    Menlo, Consolas, monospace;
+
+  --surface-0:     #000000;
+  --surface-1:     #060a07;
+  --surface-2:     #0c120e;
+  --surface-3:     #121b14;
+  --surface-4:     #1a261d;
+  --border:        #1f2e23;
+  --border-strong: #2e4434;
+
+  --fg-1:          #c7f7d4;
+  --fg-2:          #8fd9a0;
+  --fg-3:          #5fa673;
+  --fg-4:          #3d6e4c;
+
+  --primary:       #4ade80;
+  --primary-hover: #6ce89a;
+  --primary-press: #2fc568;
+  --primary-soft:  rgba(74, 222, 128, 0.14);
+  --primary-ring:  rgba(74, 222, 128, 0.45);
+  --primary-on:    #021608;
+  --glow-level: 3;
+}
+
+/* ── 7. MONO ───────────────────────────────────────────────────────────────
+   Pure neutral grays, zero accent hue. The focus theme — recommended for
+   users who find accent glow distracting in VR. Glow: 0.
+*/
+[data-theme="mono"] {
+  --surface-0:     #0a0a0a;
+  --surface-1:     #131313;
+  --surface-2:     #1c1c1c;
+  --surface-3:     #262626;
+  --surface-4:     #323232;
+  --border:        #383838;
+  --border-strong: #525252;
+
+  --primary:       #e5e5e5;
+  --primary-hover: #f5f5f5;
+  --primary-press: #c5c5c5;
+  --primary-soft:  rgba(229, 229, 229, 0.08);
+  --primary-ring:  rgba(229, 229, 229, 0.30);
+  --primary-on:    #0a0a0a;
+  --glow-level: 0;
+}
+
+/* ── 8. OCEAN ──────────────────────────────────────────────────────────────
+   Deep teal/steel. Cool and quiet. Surfaces shifted toward slate-blue so
+   the accent feels embedded, not pasted on. Glow: 1.
+*/
+[data-theme="ocean"] {
+  --surface-0:     #070d12;
+  --surface-1:     #0d151c;
+  --surface-2:     #141f28;
+  --surface-3:     #1c2b37;
+  --surface-4:     #263847;
+  --border:        #2a3f52;
+  --border-strong: #3d5a71;
+
+  --primary:       #38bdf8;
+  --primary-hover: #5ccbfa;
+  --primary-press: #1a9fd8;
+  --primary-soft:  rgba(56, 189, 248, 0.14);
+  --primary-ring:  rgba(56, 189, 248, 0.40);
+  --primary-on:    #02151f;
+  --glow-level: 1;
+}
