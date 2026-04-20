@@ -12,56 +12,56 @@ const navItems = [
 const routeMeta = {
   "/": {
     eyebrow: "Support center",
-    title: "Release support without the old sprawl.",
-    copy: "The public support path now lives in one place: troubleshoot the common issues, file bugs, and reach the right docs without bouncing between legacy subdomains.",
+    title: "Help for install, overlays, and creator tools.",
+    copy: "Use docs for setup, troubleshooting for common issues, and bug reports for reproducible problems.",
   },
   "/troubleshooting": {
     eyebrow: "Troubleshooting",
-    title: "Work the common blockers first.",
-    copy: "These are the fastest checks for launch-era install, capture, input, and integration issues.",
+    title: "Check the common fixes first.",
+    copy: "Fast checks for install, capture, input, performance, and creator integrations.",
   },
   "/known-issues": {
     eyebrow: "Known issues",
-    title: "Current launch-era blockers and caveats.",
-    copy: "This page focuses on recurring setup problems we expect users to hit during release prep, not a live public bug tracker.",
+    title: "Current known issues.",
+    copy: "A short list of issues we already know about in the release build.",
   },
   "/report-bug": {
     eyebrow: "Bug intake",
-    title: "Send a clean report to the vrOS issue pipeline.",
-    copy: "The form below still talks to the existing bug intake API, but the rest of the old tracker stack stays retired from public navigation.",
+    title: "Send a bug report.",
+    copy: "Use this form for reproducible issues. It still posts to the existing intake API.",
   },
   "/community": {
     eyebrow: "Community",
-    title: "Launch channels are being consolidated here.",
-    copy: "Public Discord and forum plans are being folded into the support center during release prep. Use these channels for now.",
+    title: "Other ways to reach us.",
+    copy: "Use docs, Steam, or email while community channels are being consolidated.",
   },
   "/status": {
     eyebrow: "Status",
-    title: "Public service surfaces for release support.",
-    copy: "We are not exposing a live incident feed yet. This page documents the support surfaces and where we post changes while release infrastructure is being tightened.",
+    title: "Support and service status.",
+    copy: "This is where we point users during outages or support changes.",
   },
 };
 
 const homeLinks = [
   {
     href: "https://docs.vros.cat/",
-    title: "Documentation",
-    copy: "Install, first-run setup, overlay basics, FAQs, and release notes.",
+    title: "Docs",
+    copy: "Install, first run, overlays, and release notes.",
   },
   {
     href: "/troubleshooting",
     title: "Troubleshooting",
-    copy: "SteamVR launch, capture, input, and creator-service checks.",
+    copy: "Quick checks for install, capture, input, and creator tools.",
   },
   {
     href: "/report-bug",
     title: "Report a bug",
-    copy: "Open a structured report that still lands in the existing intake API.",
+    copy: "Send a reproducible issue to the bug intake pipeline.",
   },
   {
     href: "/status",
     title: "Status",
-    copy: "See the public service surfaces and where incident updates will appear.",
+    copy: "See current support and service notes.",
   },
 ];
 
@@ -235,12 +235,11 @@ function HomePage() {
       <article className="hero-card vros-card" data-raised="true">
         <div className="hero-card-copy">
           <span className="vros-badge" data-tone="success">
-            Launch support path
+            Support
           </span>
-          <h2 className="type-h1">One public support lane instead of multiple half-finished destinations.</h2>
+          <h2 className="type-h1">Help for install, overlays, and creator tools.</h2>
           <p className="type-body">
-            Legacy bugs, community, and status surfaces are being collapsed into this support center
-            so release users can find the right answer faster.
+            Start with docs or troubleshooting. Use the bug form for reproducible problems.
           </p>
           <div className="hero-card-actions">
             <a className="vros-btn" data-variant="primary" href="/report-bug">
@@ -281,24 +280,24 @@ function HomePage() {
       </div>
 
       <article className="prep-card vros-card">
-        <p className="type-micro">Before you contact us</p>
+        <p className="type-micro">Before you file a bug</p>
         <div className="prep-grid">
           <div>
-            <h3 className="type-h3">Collect the basics</h3>
+            <h3 className="type-h3">Version + headset</h3>
             <p className="type-small">
-              App version, headset, Windows version, and which overlay or integration failed.
+              Include your app version, headset, and which overlay or tool failed.
             </p>
           </div>
           <div>
-            <h3 className="type-h3">Retry the fast fixes</h3>
+            <h3 className="type-h3">Try the quick fixes</h3>
             <p className="type-small">
-              Restart SteamVR, relaunch vrOS, and test with fewer active overlays before filing.
+              Restart SteamVR, relaunch vrOS, and test with fewer overlays first.
             </p>
           </div>
           <div>
-            <h3 className="type-h3">Choose the right lane</h3>
+            <h3 className="type-h3">Pick the right lane</h3>
             <p className="type-small">
-              Docs for setup, support for blockers, bug reports for reproducible failures.
+              Docs for setup, troubleshooting for common issues, bug reports for real failures.
             </p>
           </div>
         </div>
@@ -349,10 +348,9 @@ function CommunityPage() {
     <div className="community-grid">
       <article className="vros-card" data-raised="true">
         <p className="type-micro">Primary help surfaces</p>
-        <h2 className="type-h2">Use docs, support, and Steam as the public release channels.</h2>
+        <h2 className="type-h2">Use docs, support, and Steam.</h2>
         <p className="type-body">
-          Public Discord and forum plans are being consolidated into this support center. Until that
-          settles, the stable public surfaces are docs, support email, and the Steam release page.
+          While community channels are being consolidated, the stable public surfaces are docs, support email, and the Steam page.
         </p>
         <div className="hero-card-actions">
           <a className="vros-btn" data-variant="secondary" href="https://docs.vros.cat/">
@@ -382,9 +380,9 @@ function CommunityPage() {
 
       <article className="vros-card">
         <p className="type-micro">Direct contact</p>
-        <h2 className="type-h2">Need a private support lane?</h2>
+        <h2 className="type-h2">Need private support?</h2>
         <p className="type-body">
-          Account-sensitive issues, private logs, and direct support questions can go through email.
+          Account-sensitive issues and private logs can go through email.
         </p>
         <a className="vros-btn" data-variant="primary" href="mailto:support@vros.cat">
           <span className="vros-btn-label">Email support@vros.cat</span>
@@ -408,8 +406,7 @@ function StatusPage() {
       <article className="vros-card status-note">
         <p className="type-micro">Incident handling</p>
         <p className="type-body">
-          A real-time public incident feed is not wired up yet. During release prep, service changes
-          and outages are communicated through this support center and linked release channels instead.
+          A live incident feed is not public yet. We post service changes here and through linked release channels.
         </p>
       </article>
     </div>
@@ -765,7 +762,7 @@ export default function App() {
       <footer className="support-footer">
         <div>
           <p className="type-micro">vrOS support</p>
-          <p className="type-small">Troubleshooting, docs routing, community contact, and bug intake.</p>
+          <p className="type-small">Setup help, troubleshooting, and bug intake.</p>
         </div>
         <div className="footer-links">
           <a href="https://vros.cat/">Main site</a>
