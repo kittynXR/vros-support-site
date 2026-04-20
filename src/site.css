@@ -230,10 +230,81 @@ a.vros-btn {
 .hero-card-image {
   width: 100%;
   align-self: stretch;
-  object-fit: cover;
   border-radius: var(--radius-lg);
-  border: 1px solid rgb(from var(--primary) r g b / 0.2);
-  background: var(--surface-1);
+}
+
+.support-brand-panel {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border: 1px solid rgb(from var(--primary) r g b / 0.22);
+  background:
+    radial-gradient(circle at top right, rgb(from var(--primary) r g b / 0.16), transparent 36%),
+    linear-gradient(180deg, rgb(from var(--surface-1) r g b / 0.96), rgb(from var(--surface-2) r g b / 0.9));
+  overflow: hidden;
+}
+
+.support-brand-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.support-brand-route {
+  color: var(--fg-3);
+}
+
+.support-brand-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  padding: var(--sp-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgb(from var(--border) r g b / 0.72);
+  background:
+    linear-gradient(rgb(from var(--primary) r g b / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(from var(--primary) r g b / 0.06) 1px, transparent 1px),
+    rgb(from var(--surface-0) r g b / 0.82);
+  background-size: 36px 36px, 36px 36px, auto;
+}
+
+.support-brand-halo {
+  position: absolute;
+  inset: 16% 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(from var(--primary) r g b / 0.22), transparent 68%);
+  filter: blur(18px);
+}
+
+.support-brand-image {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 260px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 28px rgb(from var(--primary) r g b / 0.18));
+}
+
+.support-brand-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+.support-brand-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 var(--sp-3);
+  border: 1px solid rgb(from var(--border) r g b / 0.72);
+  border-radius: var(--radius-pill);
+  background: rgb(from var(--surface-1) r g b / 0.84);
+  color: var(--fg-2);
+  font-size: 12px;
+  font-family: var(--font-mono);
 }
 
 .home-grid,
@@ -423,6 +494,11 @@ a.vros-btn {
   .support-sidebar {
     position: static;
   }
+
+  .support-brand-head {
+    flex-direction: column;
+    align-items: start;
+  }
 }
 
 @media (max-width: 780px) {
@@ -458,5 +534,9 @@ a.vros-btn {
   .community-grid > .vros-card,
   .hero-card {
     padding: var(--sp-4);
+  }
+
+  .support-brand-grid {
+    grid-template-columns: 1fr;
   }
 }

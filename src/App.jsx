@@ -251,7 +251,23 @@ function HomePage() {
             </a>
           </div>
         </div>
-        <img className="hero-card-image" src="/assets/vros-capsule.png" alt="vrOS capsule art" />
+        <div className="hero-card-image support-brand-panel" aria-label="vrOS support brand panel">
+          <div className="support-brand-head">
+            <span className="vros-badge" data-tone="primary">
+              Support surface
+            </span>
+            <span className="type-mono support-brand-route">support.vros.cat</span>
+          </div>
+          <div className="support-brand-stage">
+            <div className="support-brand-halo" aria-hidden="true" />
+            <img className="support-brand-image" src="/assets/vros-logo.png" alt="vrOS app icon" />
+          </div>
+          <div className="support-brand-grid" aria-hidden="true">
+            <span className="support-brand-chip">Docs</span>
+            <span className="support-brand-chip">Bug intake</span>
+            <span className="support-brand-chip">Status</span>
+          </div>
+        </div>
       </article>
 
       <div className="home-grid">
