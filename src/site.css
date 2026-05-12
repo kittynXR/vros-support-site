@@ -99,7 +99,7 @@ a.vros-btn {
 
 .support-layout {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-6);
   max-width: 1280px;
   margin: 0 auto;

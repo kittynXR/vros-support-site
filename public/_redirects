@@ -3,11 +3,11 @@
 /bugs/* /report-bug 301
 /support / 301
 /support/* / 301
-/activity /known-issues 301
-/stats /status 301
+/troubleshooting / 301
+/known-issues / 301
+/community / 301
+/status / 301
+/activity / 301
+/stats / 301
 /report-bug /index.html 200
-/troubleshooting /index.html 200
-/known-issues /index.html 200
-/community /index.html 200
-/status /index.html 200
 /* /index.html 200
